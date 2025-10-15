@@ -1,10 +1,14 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class move : MonoBehaviour
 {
     private int movepositonindex = 2;
+    public float moveSpeed = 2f; // 移動スピード
+    private Vector3 targetPosition;
+    private Coroutine moveCoroutine;
     
     //プレイヤーの移動できるポイントを５つ設定
     Vector3[] movepositions = new Vector3[]
@@ -34,7 +38,7 @@ public class move : MonoBehaviour
                 movepositonindex -= 1;
             }
 
-            gameObject.transform.localPosition = movepositions[movepositonindex];
+            SetTarget(movepositions[movepositonindex]);
         }
 
     }
@@ -49,7 +53,57 @@ public class move : MonoBehaviour
                 movepositonindex += 1;
             }
 
-            gameObject.transform.localPosition = movepositions[movepositonindex];
+            SetTarget(movepositions[movepositonindex]);
         }
     }
+
+
+    // 新しいターゲット座標をセット
+    public void SetTarget(Vector3 newTarget)
+    {
+        // ターゲットが更新されたら、今の移動を中断
+        if (moveCoroutine != null)
+        {
+            StopCoroutine(moveCoroutine);
+        }
+
+        targetPosition = newTarget;
+        moveCoroutine = StartCoroutine(MoveToTarget());
+    }
+    private IEnumerator MoveToTarget()
+    {
+        while (Vector3.Distance(transform.localPosition, targetPosition) > 0.01f)
+        {
+            transform.localPosition = Vector3.MoveTowards(
+                transform.localPosition,
+                targetPosition,
+                moveSpeed * Time.deltaTime
+            );
+
+            yield return null; // 次のフレームまで待機
+        }
+
+        // 最終位置を正確に補正
+        transform.localPosition = targetPosition;
+        moveCoroutine = null;
+    }
+    // // コルーチンでなめらかに移動
+    // private IEnumerator MoveToTarget()
+    // {
+    //     while (Vector3.Distance(transform.localPosition, targetPosition) > 0.01f)
+    //     {
+    //         transform.localPosition = Vector3.Lerp(
+    //             transform.localPosition,
+    //             targetPosition,
+    //             Time.deltaTime * moveSpeed
+    //         );
+
+    //         // フレームをまたいで継続（フリーズ防止）
+    //         yield return null;
+    //     }
+
+    //     // 最終的に誤差を補正
+    //     transform.localPosition = targetPosition;
+    //     moveCoroutine = null;
+    // }
 }
