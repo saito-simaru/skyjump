@@ -28,5 +28,6 @@ public class wall : MonoBehaviour
 
         // 最終位置を正確に補正
         transform.localPosition = targetPosition;
+        Destroy(gameObject);
     }
 }

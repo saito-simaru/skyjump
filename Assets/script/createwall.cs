@@ -1,16 +1,42 @@
 using UnityEngine;
-
+using System.Collections;
 public class createwall : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    Vector3[] spawnpositions = new Vector3[]
+    {
+        new Vector3(2f, 0.6f, 0.4f),
+        new Vector3(2f, 0.6f, 0.2f),
+        new Vector3(2f, 0.6f, 0f),
+        new Vector3(2f, 0.6f, -0.2f),
+        new Vector3(2f, 0.6f, -0.4f)
+    };
+
+    [SerializeField] private GameObject prefab;  // 生成したいPrefab
+    [SerializeField] private Transform parentObject; // 子にしたいオブジェクト
+    int randomValue;
+
     void Start()
     {
-        
+        StartCoroutine(createwalls());
+
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator createwalls()
     {
-        
+        while(true)
+        {
+            randomValue = Random.Range(0, 5);
+
+            GameObject instance = Instantiate(prefab, parentObject);
+            instance.transform.localPosition = spawnpositions[randomValue]; // 親を基準にした座標
+            instance.transform.localRotation = Quaternion.identity;
+
+            // --- 親のスケールや回転を引き継がないようにする場合 ---
+            // instance.transform.localScale = Vector3.one;
+            // instance.transform.localRotation = Quaternion.identity;
+
+            yield return new WaitForSeconds(0.5f); // 0.5秒待つ
+        }
+
     }
 }
