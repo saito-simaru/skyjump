@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEditor.Experimental.GraphView;
 public class createwall : MonoBehaviour
 {
     Vector3[] spawnpositions = new Vector3[]
@@ -16,7 +17,7 @@ public class createwall : MonoBehaviour
     [SerializeField] private speedmanager speedmanager;
     int randomValue;
     private float waittime;
-    [SerializeField]private float[] waitlevels = new float[3];
+    [SerializeField]private float[] waitlevels = new float[5];
 
     void Start()
     {
@@ -36,12 +37,18 @@ public class createwall : MonoBehaviour
 
     private void HandleChanged()
     {
-        Debug.Log("cahngespped");
-        if (speedmanager.speed > 4)
+        //壁の移動スピードによって生成頻度を変更
+
+        // Debug.Log("cahngespped");
+        if (speedmanager.speed > 3.5)
+        {
+            waittime = waitlevels[3];
+        }
+        else if (speedmanager.speed > 2.5)
         {
             waittime = waitlevels[2];
         }
-        else if (speedmanager.speed > 2)
+        else if (speedmanager.speed > 1.5)
         {
             waittime = waitlevels[1];
         }
