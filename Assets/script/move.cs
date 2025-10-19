@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 
+
 public class move : MonoBehaviour
 {
     private int movepositonindex = 2;
@@ -21,7 +22,9 @@ public class move : MonoBehaviour
     };
     // 対象のレイヤーを指定（インスペクターで設定できるようにする）
     [SerializeField] private LayerMask targetLayer;
+    [SerializeField] private speedmanager speedmanager;
 
+    
     void Start()
     {
         gameObject.transform.localPosition = movepositions[2];
@@ -96,7 +99,7 @@ public class move : MonoBehaviour
         if (((1 << other.gameObject.layer) & targetLayer) != 0)
         {
             Debug.Log($"{other.gameObject.name} が Trigger に入りました！（Layer: {LayerMask.LayerToName(other.gameObject.layer)}）");
-            
+            speedmanager.SetSpeed(1f);
         }
     }
 }

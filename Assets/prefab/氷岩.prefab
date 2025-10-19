@@ -56,6 +56,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.6
+  speedmanager: {fileID: 11400000, guid: 7fdde3a8fc4014848ac4ac2c71a1c333, type: 2}
 --- !u!23 &8022266869952911998
 MeshRenderer:
   m_ObjectHideFlags: 0

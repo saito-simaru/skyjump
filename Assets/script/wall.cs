@@ -3,8 +3,26 @@ using System.Collections;
 public class wall : MonoBehaviour
 {
     private Vector3 currentposition;
-    public float speed;
     private Vector3 targetPosition;
+    [SerializeField] private speedmanager speedmanager;
+    private float currentSpeed;
+
+    private void OnEnable()
+    {
+        speedmanager.OnChanged += HandleChanged;
+        HandleChanged(); // 初回にも現在の設定を反映
+    }
+
+    private void OnDisable()
+    {
+        speedmanager.OnChanged -= HandleChanged;
+    }
+
+    private void HandleChanged()
+    {
+        Debug.Log("cahngespped");
+        currentSpeed = speedmanager.speed;
+    }
     void Start()
     {
         //生成時に現在座標からｘ座標だけターゲット位置を差し替えたVector3にする。ー１はプレイヤーに向かって画面外へ消えるまでのｘ座標
@@ -20,7 +38,7 @@ public class wall : MonoBehaviour
             transform.localPosition = Vector3.MoveTowards(
                 transform.localPosition,
                 targetPosition,
-                speed * Time.deltaTime
+                currentSpeed * Time.deltaTime
             );
 
             yield return null; // 次のフレームまで待機
