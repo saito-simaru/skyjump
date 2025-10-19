@@ -13,12 +13,42 @@ public class createwall : MonoBehaviour
 
     [SerializeField] private GameObject prefab;  // 生成したいPrefab
     [SerializeField] private Transform parentObject; // 子にしたいオブジェクト
+    [SerializeField] private speedmanager speedmanager;
     int randomValue;
+    private float waittime;
+    [SerializeField]private float[] waitlevels = new float[3];
 
     void Start()
     {
         StartCoroutine(createwalls());
 
+    }
+    private void OnEnable()
+    {
+        speedmanager.OnChanged += HandleChanged;
+        HandleChanged(); // 初回にも現在の設定を反映
+    }
+
+    private void OnDisable()
+    {
+        speedmanager.OnChanged -= HandleChanged;
+    }
+
+    private void HandleChanged()
+    {
+        Debug.Log("cahngespped");
+        if (speedmanager.speed > 4)
+        {
+            waittime = waitlevels[2];
+        }
+        else if (speedmanager.speed > 2)
+        {
+            waittime = waitlevels[1];
+        }
+        else
+        {
+            waittime = waitlevels[0];
+        }
     }
 
     private IEnumerator createwalls()
@@ -35,7 +65,7 @@ public class createwall : MonoBehaviour
             // instance.transform.localScale = Vector3.one;
             // instance.transform.localRotation = Quaternion.identity;
 
-            yield return new WaitForSeconds(0.5f); // 0.5秒待つ
+            yield return new WaitForSeconds(waittime); // 0.5秒待つ
         }
 
     }

@@ -99,7 +99,7 @@ public class move : MonoBehaviour
         if (((1 << other.gameObject.layer) & targetLayer) != 0)
         {
             Debug.Log($"{other.gameObject.name} が Trigger に入りました！（Layer: {LayerMask.LayerToName(other.gameObject.layer)}）");
-            speedmanager.SetSpeed(1f);
+            speedmanager.AddDelta(-0.5f);
         }
     }
 }
