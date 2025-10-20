@@ -21,7 +21,7 @@ public class move : MonoBehaviour
         new Vector3(-0.35f, 0.6f, -0.4f)
     };
     // 対象のレイヤーを指定（インスペクターで設定できるようにする）
-    [SerializeField] private LayerMask targetLayer;
+    [SerializeField] private LayerMask discriptiontarget;
     [SerializeField] private speedmanager speedmanager;
 
     
@@ -35,7 +35,7 @@ public class move : MonoBehaviour
     public void Leftmove(InputAction.CallbackContext context)
     {
 
-        if (context.performed)
+        if (context.performed && fazecontroller.isjumpfaze == false)
         {
             Debug.Log("Left");
             if (movepositonindex > 0)
@@ -50,7 +50,7 @@ public class move : MonoBehaviour
     public void Rightmove(InputAction.CallbackContext context)
     {
         Debug.Log("i");
-        if (context.performed)
+        if (context.performed && fazecontroller.isjumpfaze == false)
         {
             Debug.Log("right");
             if (movepositonindex < 4)
@@ -95,11 +95,12 @@ public class move : MonoBehaviour
     // Triggerに何かが入ったときに呼ばれる
     private void OnTriggerEnter(Collider other)
     {
-        // other.gameObject が targetLayer に含まれているか判定
-        if (((1 << other.gameObject.layer) & targetLayer) != 0)
+        // other.gameObject が discriptiontarget に含まれているか判定
+        if (((1 << other.gameObject.layer) & discriptiontarget) != 0)
         {
             Debug.Log($"{other.gameObject.name} が Trigger に入りました！（Layer: {LayerMask.LayerToName(other.gameObject.layer)}）");
             speedmanager.AddDelta(-0.5f);
         }
+
     }
 }
