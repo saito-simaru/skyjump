@@ -256,12 +256,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c46d414dba7db942a286b886dca1749, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delayTime: 2
+  delayTime: 10
   createwall: {fileID: 1333798797}
   jumpmove: {fileID: 9093335079823192905}
   sinmove: {fileID: 9093335079823192906}
   targetCamera: {fileID: 330585545}
-  parentObject: {fileID: 9093335079823192902}
+  followcameraobj: {fileID: 9093335079823192902}
+  icepapy: {fileID: 27703836}
   speedToJumpPosition: 10
   speedToOutPositon: 30
 --- !u!4 &87548878
@@ -2226,7 +2227,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 16
+  m_Constraints: 64
   m_CollisionDetection: 0
 --- !u!114 &9093335079823192904
 MonoBehaviour:
