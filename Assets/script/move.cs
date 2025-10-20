@@ -3,13 +3,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 
+
 public class move : MonoBehaviour
 {
     private int movepositonindex = 2;
     public float moveSpeed = 2f; // 移動スピード
     private Vector3 targetPosition;
     private Coroutine moveCoroutine;
-    
+
     //プレイヤーの移動できるポイントを５つ設定
     Vector3[] movepositions = new Vector3[]
     {
@@ -19,7 +20,11 @@ public class move : MonoBehaviour
         new Vector3(-0.35f, 0.6f, -0.2f),
         new Vector3(-0.35f, 0.6f, -0.4f)
     };
+    // 対象のレイヤーを指定（インスペクターで設定できるようにする）
+    [SerializeField] private LayerMask discriptiontarget;
+    [SerializeField] private speedmanager speedmanager;
 
+    
     void Start()
     {
         gameObject.transform.localPosition = movepositions[2];
@@ -30,7 +35,7 @@ public class move : MonoBehaviour
     public void Leftmove(InputAction.CallbackContext context)
     {
 
-        if (context.performed)
+        if (context.performed && fazecontroller.isjumpfaze == false)
         {
             Debug.Log("Left");
             if (movepositonindex > 0)
@@ -45,7 +50,7 @@ public class move : MonoBehaviour
     public void Rightmove(InputAction.CallbackContext context)
     {
         Debug.Log("i");
-        if (context.performed)
+        if (context.performed && fazecontroller.isjumpfaze == false)
         {
             Debug.Log("right");
             if (movepositonindex < 4)
@@ -87,23 +92,15 @@ public class move : MonoBehaviour
         transform.localPosition = targetPosition;
         moveCoroutine = null;
     }
-    // // コルーチンでなめらかに移動
-    // private IEnumerator MoveToTarget()
-    // {
-    //     while (Vector3.Distance(transform.localPosition, targetPosition) > 0.01f)
-    //     {
-    //         transform.localPosition = Vector3.Lerp(
-    //             transform.localPosition,
-    //             targetPosition,
-    //             Time.deltaTime * moveSpeed
-    //         );
+    // Triggerに何かが入ったときに呼ばれる
+    private void OnTriggerEnter(Collider other)
+    {
+        // other.gameObject が discriptiontarget に含まれているか判定
+        if (((1 << other.gameObject.layer) & discriptiontarget) != 0)
+        {
+            Debug.Log($"{other.gameObject.name} が Trigger に入りました！（Layer: {LayerMask.LayerToName(other.gameObject.layer)}）");
+            speedmanager.AddDelta(-0.5f);
+        }
 
-    //         // フレームをまたいで継続（フリーズ防止）
-    //         yield return null;
-    //     }
-
-    //     // 最終的に誤差を補正
-    //     transform.localPosition = targetPosition;
-    //     moveCoroutine = null;
-    // }
+    }
 }
