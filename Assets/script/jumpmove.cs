@@ -9,7 +9,7 @@ public class jumpmove : MonoBehaviour
 {
     private Vector3 targetPosition;
     private Coroutine moveCoroutine;
-    public float moveSpeed = 2f; // 移動スピード
+    private float moveSpeed; // 移動スピード
     [SerializeField] private buttobi buttobi;
     [Header("Tag設定")]
     public string redtag = "redline"; // 特定のTagを指定
@@ -27,7 +27,7 @@ public class jumpmove : MonoBehaviour
 
     void Start()
     {
-        // col = GetComponent<BoxCollider>();
+        col = GetComponent<BoxCollider>();
 
         // localPos = transform.localPosition;
 
@@ -40,34 +40,35 @@ public class jumpmove : MonoBehaviour
     }
 
 
-    public void Setjumppoint(Vector3 newTarget,float Speed)
-    {
-                // ターゲットが更新されたら、今の移動を中断
-        if (moveCoroutine != null)
-        {
-            StopCoroutine(moveCoroutine);
-        }
-        moveSpeed = Speed;
-        targetPosition = newTarget;
-        moveCoroutine = StartCoroutine(MoveToJumppoint(moveSpeed));
-    }
-    private IEnumerator MoveToJumppoint(float Speed)
-    {
-        while (Vector3.Distance(transform.position, targetPosition) > 0.01f)
-        {
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                targetPosition,
-                Speed * Time.deltaTime
-            );
+    // public void Setjumppoint(Vector3 newTarget, float Speed)
+    // {
+    //     // ターゲットが更新されたら、今の移動を中断
+    //     if (moveCoroutine != null)
+    //     {
+    //         StopCoroutine(moveCoroutine);
+    //     }
+    //     moveSpeed = Speed;
+    //     targetPosition = newTarget;
+    //     moveCoroutine = StartCoroutine(MoveToJumppoint(moveSpeed));
+    // }
+    
+    // private IEnumerator MoveToJumppoint(float Speed)
+    // {
+    //     while (Vector3.Distance(transform.position, targetPosition) > 0.01f)
+    //     {
+    //         transform.position = Vector3.MoveTowards(
+    //             transform.position,
+    //             targetPosition,
+    //             Speed * Time.deltaTime
+    //         );
 
-            yield return null; // 次のフレームまで待機
-        }
+    //         yield return null; // 次のフレームまで待機
+    //     }
 
-        // 最終位置を正確に補正
-        transform.position = targetPosition;
-        moveCoroutine = null;
-    }
+    //     // 最終位置を正確に補正
+    //     transform.position = targetPosition;
+    //     moveCoroutine = null;
+    // }
 
     void OnTriggerEnter(Collider other)
     {
@@ -122,9 +123,9 @@ public class jumpmove : MonoBehaviour
     {
         if (!fazecontroller.isjumpfaze) return;
 
-        Vector3 localOffset = new Vector3(0f, 0f, 0f);
-        Vector3 rayStart = transform.TransformPoint(localOffset);
-        Ray ray = new Ray(rayStart, Vector3.down);
+        // Vector3 localOffset = new Vector3(0f, 0f, 0f);
+        // Vector3 rayStart = transform.TransformPoint(localOffset);
+        Ray ray = new Ray(transform.position, Vector3.down);
 
         RaycastHit hit;
 
@@ -132,7 +133,7 @@ public class jumpmove : MonoBehaviour
         {
             col.isTrigger = false;
             Debug.Log("ColliderのTriggerをオフにしました");
-            Debug.DrawRay(rayStart, Vector3.down * rayLength, Color.green);
+            Debug.DrawRay(transform.position, Vector3.down * rayLength, Color.green);
             Debug.Log("out");
             isjumping = true;
 
@@ -142,7 +143,7 @@ public class jumpmove : MonoBehaviour
         {
 
             // 下に何もない場合の処理
-            Debug.Log("下にオブジェクトが見つかりません！");
+            Debug.Log("下にオブジェクトがあります");
             // --- ここに処理を書く ---
             // 例：落下判定、警告エフェクトなど
         }

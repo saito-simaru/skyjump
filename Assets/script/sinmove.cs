@@ -43,7 +43,7 @@ public class sinmove : MonoBehaviour
                 movepositonindex -= 1;
             }
 
-            SetTarget(movepositions[movepositonindex]);
+            SetTarget(movepositions[movepositonindex],moveSpeed);
         }
 
     }
@@ -58,13 +58,13 @@ public class sinmove : MonoBehaviour
                 movepositonindex += 1;
             }
 
-            SetTarget(movepositions[movepositonindex]);
+            SetTarget(movepositions[movepositonindex],moveSpeed);
         }
     }
 
 
     // 新しいターゲット座標をセット
-    public void SetTarget(Vector3 newTarget)
+    public void SetTarget(Vector3 newTarget, float setspeed)
     {
         // ターゲットが更新されたら、今の移動を中断
         if (moveCoroutine != null)
@@ -73,16 +73,16 @@ public class sinmove : MonoBehaviour
         }
 
         targetPosition = newTarget;
-        moveCoroutine = StartCoroutine(MoveToTarget());
+        moveCoroutine = StartCoroutine(MoveToTarget(setspeed));
     }
-    private IEnumerator MoveToTarget()
+    private IEnumerator MoveToTarget(float speed)
     {
         while (Vector3.Distance(transform.position, targetPosition) > 0.01f)
         {
             transform.position = Vector3.MoveTowards(
                 transform.position,
                 targetPosition,
-                moveSpeed * Time.deltaTime
+                speed * Time.deltaTime
             );
 
             yield return null; // 次のフレームまで待機
