@@ -105,7 +105,7 @@ public class jumpmove : MonoBehaviour
             else if (inpinkline)
             {
                 Debug.Log("私はピンキー");
-                buttobi.SetJumpconfig(150);
+                buttobi.SetJumpconfig(200);
                 isjumping = true;
             }
             else

@@ -16,6 +16,8 @@ public class buttobi : MonoBehaviour
     public bool enableGravityAfterSlow = true;   // 閾値を下回ったら重力有効化
     public bool debugDraw = true;                // Gizmo線を描く
 
+    public LayerMask buildlayer;
+
     private float currentSpeed;
     private Vector3 dirN;
     private bool falling = false; // 自由落下中かどうか
@@ -25,6 +27,22 @@ public class buttobi : MonoBehaviour
     //     rb = GetComponent<Rigidbody>();
     // }
     //rigidbodyの設定と飛ぶ速さなどの値を設定
+    void Explode() {
+        Debug.Log("bakusan");
+        ParticleSystem exp = GetComponent<ParticleSystem>();
+        exp.Play();
+        Destroy(gameObject, exp.main.duration);
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("yobareta");
+        if (((1 << collision.gameObject.layer) & buildlayer) != 0)
+        {
+            Debug.Log("youi");
+            Explode();
+        }
+    }
+
     public void SetJumpconfig(float subspeed)
     {
         startSpeed = subspeed;
