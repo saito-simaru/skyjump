@@ -33,7 +33,7 @@ public class fazecontroller : MonoBehaviour
 
         yield return new WaitForSeconds(delayTojumpTime);
         // カメラを親オブジェクトの子にする
-        targetCamera.transform.SetParent(followcameraobj);
+        // targetCamera.transform.SetParent(followcameraobj);
 
         sinmove.SetTarget(outposition, speedToOutPositon);
     }

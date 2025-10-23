@@ -6,6 +6,7 @@ using NUnit.Framework.Internal;
 using UnityEngine.UIElements;
 using UnityEngine.SocialPlatforms;
 using Unity.Burst.CompilerServices;
+using TMPro;
 public class jumpmove : MonoBehaviour
 {
     private Vector3 targetPosition;
@@ -19,8 +20,7 @@ public class jumpmove : MonoBehaviour
     [Header("Ray設定")]
     public float rayLength = 5f; // 下方向へのRayの長さ
     public LayerMask groundLayer; // 検知対象のレイヤー（省略可）
-    private bool inredline = false;
-    private bool inpinkline = false;
+
     public static bool isjumping = false;
     private BoxCollider col;
     private Vector3 localPos;
@@ -32,12 +32,19 @@ public class jumpmove : MonoBehaviour
     [Header("ジャンプ時の基本加速度")]
     public int acceleeration;
     public speedmanager speedmanager;
+    [Header("判定UI")]
+    public TextMeshProUGUI FadeText; // フェード対象のCanvasGroup
+    public float fadeSpeed = 2f; // フェード速度（大きいほど速い）
+    public string perfectword;
+    public string goodword;
 
     void Start()
     {
         col = GetComponent<BoxCollider>();
 
         possiblejumppos = hasiobj.transform.position.x - variabljumpfield;
+
+        FadeText.alpha = 0f;
 
         // localPos = transform.localPosition;
 
@@ -80,26 +87,6 @@ public class jumpmove : MonoBehaviour
     //     moveCoroutine = null;
     // }
 
-    void OnTriggerEnter(Collider other)
-    {
-        // 特定のTagを持つオブジェクトと衝突したとき
-        if (other.CompareTag(redtag))
-        {
-            Debug.Log("特定のTag（" + redtag + "）を持つオブジェクトと接触しました！");
-            inredline = true;
-            // --- ここに処理を書く ---
-            // 例：スコア加算、エフェクト再生など
-        }
-        else if (other.CompareTag(pinktag))
-        {
-            Debug.Log("特定のTag（" + pinktag + "）を持つオブジェクトと接触しました！");
-            inpinkline = true;
-            // --- ここに処理を書く ---
-            // 例：スコア加算、エフェクト再生など
-
-        }
-    }
-
     public void Onjump(InputAction.CallbackContext context)
     {
         //端から設定した分の距離内にいればじっこう
@@ -108,36 +95,66 @@ public class jumpmove : MonoBehaviour
             if (possiblejumppos < transform.position.x && hasiobj.transform.position.x > transform.position.x)
             {
                 Debug.Log("jumpinghopping");
-                int difference = (int)(hasiobj.transform.position.x - transform.position.x);
+                float difference = hasiobj.transform.position.x - transform.position.x;
                 Debug.Log(difference);
                 buttobi.SetJumpconfig(speedmanager.speed * (acceleeration - (difference * 50)));
+                StartCoroutine(evaluateDifference(difference));
             }
-            
-            
 
-            // if (inredline)
-            // {
-            //     Debug.Log("私はレッド");
-            //     buttobi.SetJumpconfig(300);
-            //     isjumping = true;
-            // }
-            // else if (inpinkline)
-            // {
-            //     Debug.Log("私はピンキー");
-            //     buttobi.SetJumpconfig(150);
-            //     isjumping = true;
-            // }
-            // else
-            // {
-            //     inredline = false;
-            //     inpinkline = false;
-            // }
+        }
+    }
 
+    IEnumerator evaluateDifference(float difference)
+    {
+        // 一旦時間を止める
+        Time.timeScale = 0f;
+
+        float targetAlpha = 1f; // 目標の透明度
+        float threshold = 0.95f; // ループ終了のしきい値
+
+        if (difference < 3)
+        {
+            FadeText.color = Color.yellow;
+            FadeText.text = perfectword.ToString();
+        }
+        else
+        {
+            FadeText.color = Color.white;
+            FadeText.text = goodword.ToString();
         }
 
 
+        // alpha値が一定以上になるまでLerpで上げる
+        while (FadeText.alpha < threshold)
+        {
+            FadeText.alpha = Mathf.Lerp(FadeText.alpha, targetAlpha, fadeSpeed * Time.unscaledDeltaTime);
+            yield return null; // 次のフレームまで待機
+        }
+
+        // 最終的にalphaをMAXにする
+        FadeText.alpha = 1f;
+
+        // 1秒（リアルタイム）待つ
+        yield return new WaitForSecondsRealtime(1f);
+
+        FadeText.alpha = 0f;
+
+        // 時間を再開する
+        Time.timeScale = 1f;
     }
-    
+
+    // void OnCollisionEnter(Collision collision)
+    // {
+    //     if (collision.gameObject.CompareTag("ground"))
+    //     {
+    //         Debug.Log("zimenn");
+    //         isfinish = true;
+    //         // 任意の処理をここに書く
+    //         // 例）体力を減らす、エフェクトを出すなど
+    //     }
+    // }
+
+
     void Update()
     {
         if (!fazecontroller.isjumpfaze) return;

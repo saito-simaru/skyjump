@@ -21,7 +21,7 @@ public class sinmove : MonoBehaviour
         new Vector3(-5f, -0.7f, -4.7f)
     };
     // 対象のレイヤーを指定（インスペクターで設定できるようにする）
-    [SerializeField] private LayerMask discriptiontarget;
+    
     [SerializeField] private speedmanager speedmanager;
 
     
@@ -92,15 +92,5 @@ public class sinmove : MonoBehaviour
         transform.position = targetPosition;
         moveCoroutine = null;
     }
-    // Triggerに何かが入ったときに呼ばれる
-    private void OnTriggerEnter(Collider other)
-    {
-        // other.gameObject が discriptiontarget に含まれているか判定
-        if (((1 << other.gameObject.layer) & discriptiontarget) != 0)
-        {
-            Debug.Log($"{other.gameObject.name} が Trigger に入りました！（Layer: {LayerMask.LayerToName(other.gameObject.layer)}）");
-            speedmanager.AddDelta(-0.5f);
-        }
 
-    }
 }

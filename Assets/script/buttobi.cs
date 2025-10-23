@@ -5,6 +5,7 @@ using UnityEngine;
 public class buttobi : MonoBehaviour
 {
     public Rigidbody rb;
+    public bool isfinish = false;
 
     [Header("初期設定")]
     public Vector3 direction = Vector3.forward;  // 発射方向
@@ -63,6 +64,8 @@ public class buttobi : MonoBehaviour
         falling = true;
         rb.isKinematic = false;
         rb.useGravity = true;
+
+        isfinish = true;
 
         // 減速時点の速度を反映（方向は維持）
         rb.linearVelocity = dirN * currentSpeed;

@@ -1,11 +1,16 @@
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 public class wall : MonoBehaviour
 {
     private Vector3 currentposition;
     private Vector3 targetPosition;
     [SerializeField] private speedmanager speedmanager;
+    [SerializeField] private LayerMask discriptiontarget;
+    private GameObject player;
+    private Blink blink;
     private float currentSpeed;
+    
 
     private void OnEnable()
     {
@@ -25,10 +30,14 @@ public class wall : MonoBehaviour
     }
     void Start()
     {
+        player = GameObject.Find("player");
+        blink = player.GetComponent<Blink>();
+
         //生成時に現在座標からｘ座標だけターゲット位置を差し替えたVector3にする。ー１はプレイヤーに向かって画面外へ消えるまでのｘ座標
         currentposition = gameObject.transform.localPosition;
         targetPosition = new Vector3(-1, currentposition.y, currentposition.z);
         StartCoroutine(MoveToTarget());
+
     }
 
     private IEnumerator MoveToTarget()
@@ -47,5 +56,17 @@ public class wall : MonoBehaviour
         // 最終位置を正確に補正
         transform.localPosition = targetPosition;
         Destroy(gameObject);
+    }
+        // Triggerに何かが入ったときに呼ばれる
+    private void OnTriggerEnter(Collider other)
+    {
+        // other.gameObject が discriptiontarget に含まれているか判定
+        if (((1 << other.gameObject.layer) & discriptiontarget) != 0)
+        {
+            Debug.Log($"{other.gameObject.name} が Trigger に入りました！（Layer: {LayerMask.LayerToName(other.gameObject.layer)}）");
+            speedmanager.AddDelta(-0.5f);
+            blink.StartBlink();
+        }
+
     }
 }
