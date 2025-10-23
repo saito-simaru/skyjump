@@ -5,6 +5,7 @@ using System.ComponentModel;
 using NUnit.Framework.Internal;
 using UnityEngine.UIElements;
 using UnityEngine.SocialPlatforms;
+using Unity.Burst.CompilerServices;
 public class jumpmove : MonoBehaviour
 {
     private Vector3 targetPosition;
@@ -24,10 +25,19 @@ public class jumpmove : MonoBehaviour
     private BoxCollider col;
     private Vector3 localPos;
     private Vector3 startRayposition;
+    [Header("ジャンプ可能範囲")]
+    public GameObject hasiobj;
+    public int variabljumpfield;
+    private float possiblejumppos;
+    [Header("ジャンプ時の基本加速度")]
+    public int acceleeration;
+    public speedmanager speedmanager;
 
     void Start()
     {
         col = GetComponent<BoxCollider>();
+
+        possiblejumppos = hasiobj.transform.position.x - variabljumpfield;
 
         // localPos = transform.localPosition;
 
@@ -92,27 +102,36 @@ public class jumpmove : MonoBehaviour
 
     public void Onjump(InputAction.CallbackContext context)
     {
-        
+        //端から設定した分の距離内にいればじっこう
         if (context.performed)
         {
+            if (possiblejumppos < transform.position.x && hasiobj.transform.position.x > transform.position.x)
+            {
+                Debug.Log("jumpinghopping");
+                int difference = (int)(hasiobj.transform.position.x - transform.position.x);
+                Debug.Log(difference);
+                buttobi.SetJumpconfig(speedmanager.speed * (acceleeration - (difference * 50)));
+            }
+            
+            
 
-            if (inredline)
-            {
-                Debug.Log("私はレッド");
-                buttobi.SetJumpconfig(300);
-                isjumping = true;
-            }
-            else if (inpinkline)
-            {
-                Debug.Log("私はピンキー");
-                buttobi.SetJumpconfig(150);
-                isjumping = true;
-            }
-            else
-            {
-                inredline = false;
-                inpinkline = false;
-            }
+            // if (inredline)
+            // {
+            //     Debug.Log("私はレッド");
+            //     buttobi.SetJumpconfig(300);
+            //     isjumping = true;
+            // }
+            // else if (inpinkline)
+            // {
+            //     Debug.Log("私はピンキー");
+            //     buttobi.SetJumpconfig(150);
+            //     isjumping = true;
+            // }
+            // else
+            // {
+            //     inredline = false;
+            //     inpinkline = false;
+            // }
 
         }
 

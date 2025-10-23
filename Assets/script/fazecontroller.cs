@@ -13,6 +13,7 @@ public class fazecontroller : MonoBehaviour
     private Vector3 jumpposition = new Vector3(-5f, -0.7f, 0f);
     private Vector3 outposition = new Vector3(206f, -0.7f, 0f);
     public static bool isjumpfaze = false;
+    [SerializeField] private int delayTojumpTime;
     [SerializeField] private float speedToJumpPosition;
     [SerializeField] private float speedToOutPositon;
     private void Start()
@@ -30,7 +31,7 @@ public class fazecontroller : MonoBehaviour
 
         sinmove.SetTarget(jumpposition, speedToJumpPosition);
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(delayTojumpTime);
         // カメラを親オブジェクトの子にする
         targetCamera.transform.SetParent(followcameraobj);
 
