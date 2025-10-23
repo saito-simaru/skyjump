@@ -26,6 +26,10 @@ public class buttobi : MonoBehaviour
     //     rb = GetComponent<Rigidbody>();
     // }
     //rigidbodyの設定と飛ぶ速さなどの値を設定
+    void Start()
+    {
+        isfinish = false;
+    }
     public void SetJumpconfig(float subspeed)
     {
         startSpeed = subspeed;

@@ -13,15 +13,21 @@ public class CameraSwitcher : MonoBehaviour
     {
         ActivateCamera(cam1);
     }
+    void Reset()
+    {
+        ActivateCamera(cam1);
+    }
     void Update()
     {
         if (jumpmove.isjumping == true)
         {
             ActivateCamera(cam2);
+            // jumpmove.isjumping = false;
         }
         if (buttobi.isfinish == true)
         {
             ActivateCamera(cam3);
+            // buttobi.isfinish = false;
         }
     }
 
