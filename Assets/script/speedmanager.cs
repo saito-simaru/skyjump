@@ -19,6 +19,10 @@ public class speedmanager : ScriptableObject
     //     speed += changevalue;
     //     OnChanged?.Invoke(); // 登録された全てに通知
     // }
+    public void Init()
+    {
+        
+    }
     public void SetAbsolute(float value)
     {
         float clamped = Mathf.Clamp(value, minSpeed, maxSpeed);

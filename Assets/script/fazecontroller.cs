@@ -12,7 +12,7 @@ public class fazecontroller : MonoBehaviour
     [SerializeField] private Transform icepapy;
     private Vector3 jumpposition = new Vector3(-5f, -0.7f, 0f);
     private Vector3 outposition = new Vector3(206f, -0.7f, 0f);
-    public static bool isjumpfaze = false;
+    public bool isjumpfaze = false;
     [SerializeField] private int delayTojumpTime;
     [SerializeField] private float speedToJumpPosition;
     [SerializeField] private float speedToOutPositon;

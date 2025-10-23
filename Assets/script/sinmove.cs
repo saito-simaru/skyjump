@@ -10,6 +10,9 @@ public class sinmove : MonoBehaviour
     public float moveSpeed = 2f; // 移動スピード
     private Vector3 targetPosition;
     private Coroutine moveCoroutine;
+    [SerializeField] private fazecontroller FC;
+
+    
 
     //プレイヤーの移動できるポイントを５つ設定
     Vector3[] movepositions = new Vector3[]
@@ -35,7 +38,7 @@ public class sinmove : MonoBehaviour
     public void Leftmove(InputAction.CallbackContext context)
     {
 
-        if (context.performed && fazecontroller.isjumpfaze == false)
+        if (context.performed && FC.isjumpfaze == false)
         {
             Debug.Log("Left");
             if (movepositonindex > 0)
@@ -49,8 +52,8 @@ public class sinmove : MonoBehaviour
     }
     public void Rightmove(InputAction.CallbackContext context)
     {
-        Debug.Log("i");
-        if (context.performed && fazecontroller.isjumpfaze == false)
+        Debug.Log(FC.isjumpfaze);
+        if (context.performed && FC.isjumpfaze == false)
         {
             Debug.Log("right");
             if (movepositonindex < 4)

@@ -5,6 +5,7 @@ using UnityEngine;
 public class buttobi : MonoBehaviour
 {
     public Rigidbody rb;
+    public jumpmove jumpmove;
     public bool isfinish = false;
 
     [Header("初期設定")]
@@ -19,7 +20,7 @@ public class buttobi : MonoBehaviour
 
     private float currentSpeed;
     private Vector3 dirN;
-    private bool falling = false; // 自由落下中かどうか
+    public bool falling = false; // 自由落下中かどうか
 
     // void Reset()
     // {

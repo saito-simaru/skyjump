@@ -12,7 +12,9 @@ public class jumpmove : MonoBehaviour
     private Vector3 targetPosition;
     private Coroutine moveCoroutine;
     private float moveSpeed; // 移動スピード
+    
     [SerializeField] private buttobi buttobi;
+    [SerializeField] private fazecontroller FC;
     [Header("Tag設定")]
     public string redtag = "redline"; // 特定のTagを指定
     public string pinktag = "pinkline"; // 特定のTagを指定
@@ -21,7 +23,7 @@ public class jumpmove : MonoBehaviour
     public float rayLength = 5f; // 下方向へのRayの長さ
     public LayerMask groundLayer; // 検知対象のレイヤー（省略可）
 
-    public static bool isjumping = false;
+    public bool isjumping = false;
     private BoxCollider col;
     private Vector3 localPos;
     private Vector3 startRayposition;
@@ -157,7 +159,7 @@ public class jumpmove : MonoBehaviour
 
     void Update()
     {
-        if (!fazecontroller.isjumpfaze) return;
+        if (!FC.isjumpfaze) return;
 
         // Vector3 localOffset = new Vector3(0f, 0f, 0f);
         // Vector3 rayStart = transform.TransformPoint(localOffset);
