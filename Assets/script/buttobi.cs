@@ -31,9 +31,10 @@ public class buttobi : MonoBehaviour
     {
         isfinish = false;
     }
-    public void SetJumpconfig(float subspeed)
+    public void SetJumpconfig(float subspeed, float minasdec)
     {
         startSpeed = subspeed;
+        decelerationRate = decelerationRate - minasdec / 10;
 
         if (!rb) rb = GetComponent<Rigidbody>();
 

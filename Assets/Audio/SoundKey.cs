@@ -6,4 +6,5 @@ public enum SoundKey
     Bom,
     Bgm,
     miss,
+    goodjump,
 }

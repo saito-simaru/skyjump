@@ -24,6 +24,7 @@ public class jumpmove : MonoBehaviour
     public LayerMask groundLayer; // 検知対象のレイヤー（省略可）
 
     public bool isjumping = false;
+    private bool ispressjumpbutton = false;
     private BoxCollider col;
     private Vector3 localPos;
     private Vector3 startRayposition;
@@ -99,7 +100,8 @@ public class jumpmove : MonoBehaviour
                 Debug.Log("jumpinghopping");
                 float difference = hasiobj.transform.position.x - transform.position.x;
                 Debug.Log(difference);
-                buttobi.SetJumpconfig(speedmanager.speed * (acceleeration - (difference * 50)));
+                ispressjumpbutton = true;
+                buttobi.SetJumpconfig(speedmanager.speed * (acceleeration - (difference * 20)), speedmanager.speed);
                 StartCoroutine(evaluateDifference(difference));
             }
 
@@ -124,6 +126,7 @@ public class jumpmove : MonoBehaviour
         {
             FadeText.color = Color.white;
             FadeText.text = goodword.ToString();
+            AudioManager.I.PlaySFX(SoundKey.goodjump);
         }
 
 
@@ -174,7 +177,13 @@ public class jumpmove : MonoBehaviour
             Debug.Log("ColliderのTriggerをオフにしました");
             Debug.DrawRay(transform.position, Vector3.down * rayLength, Color.green);
             Debug.Log("out");
+
             isjumping = true;
+            
+            if (ispressjumpbutton == false)
+            {
+                AudioManager.I.PlaySFX(SoundKey.miss);
+            }
 
             
         }

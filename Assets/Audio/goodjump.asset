@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e64959ac813e2ce4bb803ba61867f2ba, type: 3}
-  m_Name: Bom
+  m_Name: goodjump
   m_EditorClassIdentifier: 
-  key: 3
-  clip: {fileID: 8300000, guid: 4fe5c422d1605e249b5423536de833b9, type: 3}
+  key: 6
+  clip: {fileID: 8300000, guid: ae4afac8ece759144898efc93b349458, type: 3}
   output: {fileID: 0}
   volume: 1
   pitch: 1
