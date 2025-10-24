@@ -149,16 +149,6 @@ public class jumpmove : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    // void OnCollisionEnter(Collision collision)
-    // {
-    //     if (collision.gameObject.CompareTag("ground"))
-    //     {
-    //         Debug.Log("zimenn");
-    //         isfinish = true;
-    //         // 任意の処理をここに書く
-    //         // 例）体力を減らす、エフェクトを出すなど
-    //     }
-    // }
 
 
     void Update()

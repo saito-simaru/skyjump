@@ -37,10 +37,13 @@ public class SelfBlastOnTrigger : MonoBehaviour
     [Header("Force Mode")]
     public ForceMode forceMode = ForceMode.Impulse;
 
+    [SerializeField] private ParticleSystem particle; // 再生したいパーティクルをInspectorで指定
+
     Rigidbody rb;
     Collider col;
     float lastTriggeredTime = -999f;
     bool consumed = false;
+    private bool hasPlayed = false; // 一度再生したかどうかを記録
 
     void Awake()
     {
@@ -68,6 +71,10 @@ public class SelfBlastOnTrigger : MonoBehaviour
         if (Time.time - lastTriggeredTime < cooldown) return;
         if (!string.IsNullOrEmpty(activatorTag) && !other.CompareTag(activatorTag)) return;
 
+
+        PlayParticleOnce(); // 関数を実行
+        AudioManager.I.PlaySFX(SoundKey.Bom);
+
         // 爆心地：自分の少し下＋わずかにランダム
         Vector3 jitter =
             new Vector3(Random.Range(-positionJitter, positionJitter), 0f,
@@ -82,5 +89,13 @@ public class SelfBlastOnTrigger : MonoBehaviour
 
         lastTriggeredTime = Time.time;
         if (oneShot) consumed = true;
+    }
+
+    public void PlayParticleOnce()
+    {
+        if (particle == null) return;
+
+        particle.Play();
+        hasPlayed = true; // フラグを立てる（再生済み）
     }
 }
