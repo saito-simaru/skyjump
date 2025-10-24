@@ -10,7 +10,7 @@ public class Blink : MonoBehaviour
     [Tooltip("ブリンク対象のRenderer")]
     public Renderer targetRenderer;
 
-    private bool isBlinking = false;
+    public bool isBlinking = false;
     public BoxCollider col;
 
     private void Reset()

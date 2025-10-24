@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e64959ac813e2ce4bb803ba61867f2ba, type: 3}
+  m_Name: conflict
+  m_EditorClassIdentifier: 
+  key: 0
+  clip: {fileID: 8300000, guid: 285d234e5321db547a663afa629a1395, type: 3}
+  output: {fileID: 24300002, guid: 69a8b5a178956d34698cff989eb31081, type: 2}
+  volume: 1
+  pitch: 1
+  loop: 0
+  cooldownSec: 0
+  maxSimultaneous: 4
+  spatialize2D: 0
+  spatialBlend: 0

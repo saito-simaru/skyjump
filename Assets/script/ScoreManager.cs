@@ -38,6 +38,7 @@ public class ScoreManager : MonoBehaviour
     {
         if (collision.gameObject.tag == "underground")
         {
+            AudioManager.I.PlaySFX(SoundKey.finish);
             ScoreText.rectTransform.anchoredPosition = resultpos;
             RestartText.gameObject.SetActive(true);
             

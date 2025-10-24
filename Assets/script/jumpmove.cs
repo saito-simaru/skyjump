@@ -118,6 +118,7 @@ public class jumpmove : MonoBehaviour
         {
             FadeText.color = Color.yellow;
             FadeText.text = perfectword.ToString();
+            AudioManager.I.PlaySFX(SoundKey.Jump);
         }
         else
         {

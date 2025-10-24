@@ -7,6 +7,7 @@ public class wall : MonoBehaviour
     private Vector3 targetPosition;
     [SerializeField] private speedmanager speedmanager;
     [SerializeField] private LayerMask discriptiontarget;
+    
     private GameObject player;
     private Blink blink;
     private float currentSpeed;
@@ -61,8 +62,10 @@ public class wall : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // other.gameObject が discriptiontarget に含まれているか判定
-        if (((1 << other.gameObject.layer) & discriptiontarget) != 0)
+        //blinkingで無敵状態を判別
+        if (((1 << other.gameObject.layer) & discriptiontarget) != 0 && !blink.isBlinking)
         {
+            AudioManager.I.PlaySFX(SoundKey.Conflict);
             Debug.Log($"{other.gameObject.name} が Trigger に入りました！（Layer: {LayerMask.LayerToName(other.gameObject.layer)}）");
             speedmanager.AddDelta(-0.5f);
             blink.StartBlink();

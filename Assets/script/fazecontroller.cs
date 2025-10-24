@@ -18,6 +18,7 @@ public class fazecontroller : MonoBehaviour
     [SerializeField] private float speedToOutPositon;
     private void Start()
     {
+        AudioManager.I.PlayBGM(SoundKey.Bgm, 2f);
         StartCoroutine(TriggerAfterDelay());
     }
 
